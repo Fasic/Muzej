@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     Button eng;
     Button qr;
     Button info;
-    String jezik = "Srb";
+    String jezik = "sr";
     public static final String PREFS_NAME = "Fasic";
 
     @Override
@@ -24,29 +24,28 @@ public class MainActivity extends Activity {
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        jezik = settings.getString("jezik", "Srb");
+        jezik = settings.getString("jezik", "sr");
 
         srb = (Button) findViewById(R.id.srbija);
         eng = (Button) findViewById(R.id.engleska);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "Roboto.ttf");
-        qr =  (Button) findViewById(R.id.qrButton);
-        qr.setTypeface(font);
-        info =  (Button) findViewById(R.id.infoButton);
-        info.setTypeface(font);
 
-        if(jezik.equals("Eng")){
+        qr =  (Button) findViewById(R.id.qrButton);
+        info =  (Button) findViewById(R.id.infoButton);
+
+
+        if(jezik.equals("en")){
             setEng();
         }
         else{
             setSrb();
         }
+
+        setFont();
 
         srb.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,7 +69,9 @@ public class MainActivity extends Activity {
 
         info.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, info.class);
+                intent.putExtra("jezik", jezik);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -87,13 +88,21 @@ public class MainActivity extends Activity {
         srb.setBackground(getResources().getDrawable(R.drawable.srboja));
         eng.setBackground(getResources().getDrawable(R.drawable.enbezboje));
 
-        jezik = "Srb";
+        jezik = "sr";
     }
 
     private void setEng(){
         srb.setBackground(getResources().getDrawable(R.drawable.srbezboje));
         eng.setBackground(getResources().getDrawable(R.drawable.enboja));
-        jezik = "Eng";
+        jezik = "en";
+    }
+
+    private void setFont(){
+        Typeface font = Typeface.createFromAsset(getAssets(),  getResources().getString(R.string.font));
+        font.isBold();
+
+        info.setTypeface(font);
+        qr.setTypeface(font);
     }
 
 }

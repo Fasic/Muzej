@@ -36,7 +36,7 @@
         <Button
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:text="QR"
+            android:text="@string/qrDugme"
             android:id="@+id/qrButton"
             android:background="@drawable/dugme"
             android:textColor="#720f10"
@@ -57,7 +57,7 @@
         <Button
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:text="info"
+            android:text="@string/infoDugme"
             android:id="@+id/infoButton"
             android:background="@drawable/dugme"
             android:textColor="#720f10"

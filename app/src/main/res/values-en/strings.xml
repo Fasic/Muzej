@@ -6,4 +6,9 @@
     <string name="title_activity_prikaz">Prikaz</string>
     <string name="title_activity_capture">CaptureActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="backDugme">Back</string>
+    <string name="qrDugme">QR</string>
+    <string name="infoDugme">info</string>
+    <string name="title_activity_info">info</string>
+    <string name="oMuzeju">Museum</string>
 </resources>

@@ -6,4 +6,12 @@
     <string name="title_activity_capture">CaptureActivity</string>
     <string name="skeniranjeTxt">Skeniranje...</string>
     <string name="title_activity_prikaz">Prikaz</string>
+    <string name="backDugme">Back</string>
+    <string name="baseURL" translatable="false">http://fasic.hostoi.com/</string>
+    <string name="font" translatable="false">SanFranciscoReg.ttf</string>
+    <string name="qrDugme">QR</string>
+    <string name="infoDugme">info</string>
+    <string name="baseFile" translatable="false">readTest.php</string>
+    <string name="title_activity_info">info</string>
+    <string name="oMuzeju">O muzeju</string>
 </resources>

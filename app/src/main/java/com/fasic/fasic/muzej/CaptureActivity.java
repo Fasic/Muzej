@@ -2,15 +2,16 @@ package com.fasic.fasic.muzej;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,6 +25,7 @@ import net.sourceforge.zbar.SymbolSet;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 
 public class CaptureActivity extends Activity {
@@ -34,13 +36,13 @@ public class CaptureActivity extends Activity {
 
     private TextView scanResult;
     private FrameLayout scanPreview;
-    private Button scanRestart;
+    //private Button scanRestart;
     private RelativeLayout scanContainer;
     private RelativeLayout scanCropView;
     private ImageView scanLine;
 
     private Rect mCropRect = null;
-    private boolean barcodeScanned = false;
+    //private boolean barcodeScanned = false;
     private boolean previewing = true;
     private ImageScanner mImageScanner = null;
 
@@ -51,17 +53,18 @@ public class CaptureActivity extends Activity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         Intent intent = getIntent();
         jezik = intent.getStringExtra("jezik");
+        setJezik(jezik);
+        super.onCreate(savedInstanceState);
+        setFont();
     }
 
     public void onResume(){
         super.onResume();
         releaseCamera();
         setContentView(R.layout.activity_capture);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//proveriti dal baguje!
         findViewById();
         initViews();
     }
@@ -116,15 +119,6 @@ public class CaptureActivity extends Activity {
         animation.setRepeatCount(-1);
         animation.setRepeatMode(Animation.REVERSE);
         scanLine.startAnimation(animation);
-        setTxtScanning();
-    }
-
-    private void setTxtScanning(){
-        if(jezik.equals("Srb")){
-            scanResult.setText("Skeniranje...");
-        }else{
-            scanResult.setText("Scanning......");
-        }
     }
 
     public void onPause() {
@@ -193,7 +187,8 @@ public class CaptureActivity extends Activity {
                 //Toast.makeText(CaptureActivity.this, resultStr, Toast.LENGTH_SHORT).show(); //ovde ide send to webview
 
                 Intent intent = new Intent(CaptureActivity.this, Prikaz.class);
-                intent.putExtra("url", resultStr);
+                intent.putExtra("id", resultStr);
+                intent.putExtra("jezik", jezik);
                 startActivityForResult(intent, 0);
                 //http://192.168.1.100/muzej/srb.html
 
@@ -246,5 +241,31 @@ public class CaptureActivity extends Activity {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    protected void setJezik(String jezik){
+        Locale locale;
+        String drzava;
+
+        if(jezik.equals("sr")){
+            Log.i("-->", "srCA");
+            drzava = "RS";
+        }
+        else{
+            Log.i("-->","enCA");
+            drzava = "US";
+        }
+
+        locale = new Locale(jezik, drzava);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    private void setFont(){
+        Typeface font = Typeface.createFromAsset(getAssets(),  getResources().getString(R.string.font));
+        font.isBold();
+        scanResult.setTypeface(font);
     }
 }
