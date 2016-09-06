@@ -57,7 +57,7 @@ public class CaptureActivity extends Activity {
         jezik = intent.getStringExtra("jezik");
         setJezik(jezik);
         super.onCreate(savedInstanceState);
-        setFont();
+
     }
 
     public void onResume(){
@@ -67,6 +67,7 @@ public class CaptureActivity extends Activity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//proveriti dal baguje!
         findViewById();
         initViews();
+        setFont();
     }
 
     private void findViewById() {
