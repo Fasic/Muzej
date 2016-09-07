@@ -27,6 +27,7 @@
         </activity>
         <activity
             android:name=".CaptureActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_capture"
             android:screenOrientation="portrait" >
         </activity>
@@ -38,7 +39,13 @@
         </activity>
         <activity
             android:name=".info"
+            android:configChanges="locale"
             android:label="@string/title_activity_info"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".oAktivnost"
+            android:label="@string/title_activity_o_aktivnost"
             android:screenOrientation="portrait">
         </activity>
     </application>

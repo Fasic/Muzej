@@ -11,4 +11,12 @@
     <string name="infoDugme">info</string>
     <string name="title_activity_info">info</string>
     <string name="oMuzeju">Museum</string>
+    <string name="oPecini">Cave Risovača</string>
+    <string name="opis1Omuzeju">The National Museum of Arandjelovac founded in 1981 and housed in a purpose-built building whose architecture relies on the traditions architecture of Šumadija (designer F. Bajlon). Its core activity is the research, study, preservation and presentation of movable cultural property The National Museum of Arandjelovac implemented in the territory of the two municipalities of Topola and Arandjelovac. In conceptual terms, is to protect the institution of complex type with collections in the field of paleontology, archeology, ethnology, history, art history and numismatics. Professional work is organized by departments for each area of research and protection. Within the museum works and the Department of Conservation and Restoration. </string>
+    <string name="opis2Omuzeju">National Museum in Arandjelovac, as a control, entrusted guardianship protected area \” Cave Risovača \”. As an important archeological site Paleolithic age Risovača was declared cultural heritage of great importance, and because natural resources - natural resource of great importance (natural monument category). Decorated on all principles of modern presentation, annually receives more than 20,000 visitors. Also, in the jurisdiction of the museum includes Land of Ilija Milosevic.
+Educational work of the Museum is one of the important segments of the labor curators and museum guides. Special attention is paid to educational workshops for preschool, elementary and secondary school age. In addition, workshops are organized for adults, lectures, promotions museum publications.
+The museum specializes in publishing - catalogs of collections and exhibitions, monographs, guides and Museum Risovača cave and other publications; 2003 launched the Proceedings of the Museum \“Šumadijski zapisi\”.
+</string>
+    <string name="title_activity_o_aktivnost">oAktivnost</string>
+    <string name="lokacijaMuzej">Location of the Museum</string>
 </resources>
