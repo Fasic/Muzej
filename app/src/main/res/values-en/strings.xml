@@ -19,4 +19,6 @@ The museum specializes in publishing - catalogs of collections and exhibitions, 
 </string>
     <string name="title_activity_o_aktivnost">oAktivnost</string>
     <string name="lokacijaMuzej">Location of the Museum</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="narodniMuzej">National Museum Aranđelovac</string>
 </resources>

@@ -27,21 +27,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -192,19 +185,30 @@ public class Prikaz extends Activity {
         protected String doInBackground(String... params) {
             for(int i=0;i<5;i++) {
                 try {
-                    HttpParams httpParams = new BasicHttpParams();
-                    HttpConnectionParams.setConnectionTimeout(httpParams, 500);
-                    HttpConnectionParams.setSoTimeout(httpParams, 500);
-                    HttpParams p = new BasicHttpParams();
-                    p.setParameter("user", "1");
-                    HttpClient httpclient = new DefaultHttpClient(p);
+                    HttpURLConnection urlConnection = null;
 
-                    HttpPost httppost = new HttpPost(url);
-                    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                    nameValuePairs.add(new BasicNameValuePair("user", "1"));
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    responseBody = httpclient.execute(httppost,responseHandler); //Ako je prazan odgovor?!
+                    URL url = new URL(this.url);
+
+                    urlConnection = (HttpURLConnection) url.openConnection();
+
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setReadTimeout(10000 /* milliseconds */);
+                    urlConnection.setConnectTimeout(15000 /* milliseconds */);
+
+                    urlConnection.setDoOutput(true);
+
+                    urlConnection.connect();
+
+                    BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+
+                    responseBody = sb.toString();
 
                     return responseBody;
                 } catch (Exception e) {

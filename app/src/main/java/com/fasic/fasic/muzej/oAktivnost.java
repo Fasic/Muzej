@@ -6,14 +6,23 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
 
-public class oAktivnost extends Activity {
+public class oAktivnost extends Activity implements OnMapReadyCallback {
     protected String jezik;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,7 @@ public class oAktivnost extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_o_aktivnost);
+
 
         setOmuzeju();
     }
@@ -78,5 +88,30 @@ public class oAktivnost extends Activity {
         TextView opis2 = (TextView) findViewById(R.id.opis1OmuzejuID);
         opis2.setTypeface(font);
         header.setTypeface(font);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        ImageView logo = (ImageView) findViewById(R.id.logoID);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng lokacija = new LatLng(44.3045032,20.5465969); //ovo na dalje zavisi od muzej ili pecina ili nesto trece xD
+
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(lokacija, 13));
+
+        map.addMarker(new MarkerOptions()
+                .title(getResources().getString(R.string.narodniMuzej)) //i ovo ide u string u zavisnosti od objekta bla bla
+                .position(lokacija));
     }
 }

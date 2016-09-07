@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 
 public class MainActivity extends Activity {
@@ -72,6 +73,14 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, info.class);
                 intent.putExtra("jezik", jezik);
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        ImageView logo = (ImageView) findViewById(R.id.logoID);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
