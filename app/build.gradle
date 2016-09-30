@@ -10,6 +10,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,6 +23,6 @@ android {
 dependencies {
     compile files('libs/ZBarDecoder.jar')
     compile files('libs/picasso-2.5.2.jar')
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.google.android.gms:play-services:9.4.0'
 }

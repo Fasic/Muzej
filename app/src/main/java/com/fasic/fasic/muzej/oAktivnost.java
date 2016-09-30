@@ -77,7 +77,7 @@ public class oAktivnost extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.omuzeju);
         TextView header = (TextView) findViewById(R.id.headerID);
-        header.setText("O muzeju");
+        header.setText(getResources().getString(R.string.oMuzeju));
 
         Typeface font = Typeface.createFromAsset(getAssets(),  getResources().getString(R.string.font));
         font.isBold();
@@ -85,7 +85,7 @@ public class oAktivnost extends Activity implements OnMapReadyCallback {
         TextView opis1 = (TextView) findViewById(R.id.opis1OmuzejuID);
         opis1.setTypeface(font);
 
-        TextView opis2 = (TextView) findViewById(R.id.opis1OmuzejuID);
+        TextView opis2 = (TextView) findViewById(R.id.opis2OmuzejuID);
         opis2.setTypeface(font);
         header.setTypeface(font);
 

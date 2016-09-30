@@ -39,7 +39,7 @@
                 android:id="@+id/headerID"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:textSize="45sp"
+                android:textSize="@dimen/header_font"
                 android:textAlignment="center" />
         </FrameLayout>
 
@@ -76,7 +76,7 @@
             android:id="@+id/oMuzejuID"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
-            android:textSize="30sp" />
+            android:textSize="@dimen/button_font" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,7 +109,7 @@
             android:text="@string/oPecini"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
-            android:textSize="30sp"
+            android:textSize="@dimen/button_font"
             android:id="@+id/oRisovaci" />
     </LinearLayout>
 

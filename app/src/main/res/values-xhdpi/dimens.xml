@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_height">90dp</dimen>
+    <dimen name="header_font">38dp</dimen>
+    <dimen name="button_font">28dp</dimen>
+
+    <dimen name="prikaz_naslov">40dp</dimen>
+    <dimen name="prikaz_txt">17dp</dimen>
+    <dimen name="prikaz_lr_margina">15dp</dimen>
+    <dimen name="prikaz_tb_margina">8dp</dimen>
+</resources>

@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +55,7 @@ public class Prikaz extends Activity {
     protected Target t;
 
     protected String baseURL;
-    protected String baseFile;
+    //protected String baseFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +71,31 @@ public class Prikaz extends Activity {
         setFont();
         galerija = (ImageView) findViewById(R.id.slikaID);
 
-        baseFile =  getResources().getString(R.string.baseFile);
-        baseURL = getResources().getString(R.string.baseURL);
-        String ver = BuildConfig.VERSION_NAME;
-        String url = baseURL + baseFile + "?id=" + id + "&len=" + jezik + "&ver=" + ver;
-        new GetJSON(url).execute(); //ako fali nesto za url?!
+        FrameLayout frame = (FrameLayout) findViewById(R.id.frameID);
+        ViewGroup.LayoutParams params = frame.getLayoutParams();
 
-        Button backDugme = (Button) findViewById(R.id.backID);
-        backDugme.setOnClickListener(new View.OnClickListener() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        params.height = (width/16) * 9;
+        frame.setLayoutParams(params);
+
+        //baseFile =  getResources().getString(R.string.baseFile);
+        baseURL = getResources().getString(R.string.baseURL);
+        String ver = "v" + BuildConfig.VERSION_CODE;
+        String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        //String url = baseURL  + ver + "/" + android_id  + "/" + jezik + "/" + id;
+        String url = "http://192.168.1.100/muzej/readTest.php";
+        Log.i("--F>", url);
+
+
+        new GetJSON(url).execute();
+
+        ImageView logo = (ImageView) findViewById(R.id.logo);
+        logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -163,12 +183,10 @@ public class Prikaz extends Activity {
 
     private void setFont(){
         TextView naslovTV = (TextView) findViewById(R.id.naslovID);
-        Button backDugme = (Button) findViewById(R.id.backID);
         TextView opisTV = (TextView) findViewById(R.id.txtID);
 
         Typeface font = Typeface.createFromAsset(getAssets(),  getResources().getString(R.string.font));
 
-        backDugme.setTypeface(font);
         naslovTV.setTypeface(font);
         opisTV.setTypeface(font);
     }
@@ -184,23 +202,18 @@ public class Prikaz extends Activity {
         @Override
         protected String doInBackground(String... params) {
             for(int i=0;i<5;i++) {
+
                 try {
                     HttpURLConnection urlConnection = null;
 
                     URL url = new URL(this.url);
-
                     urlConnection = (HttpURLConnection) url.openConnection();
-
                     urlConnection.setRequestMethod("GET");
                     urlConnection.setReadTimeout(10000 /* milliseconds */);
                     urlConnection.setConnectTimeout(15000 /* milliseconds */);
-
                     urlConnection.setDoOutput(true);
-
                     urlConnection.connect();
-
                     BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
-
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
@@ -209,11 +222,13 @@ public class Prikaz extends Activity {
                     br.close();
 
                     responseBody = sb.toString();
+                    Log.i("-->", responseBody);
 
                     return responseBody;
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    Log.i("-->", "" + e.getMessage());
                 }
             }
             Log.i("-->", "" + "doInBackgroundENDNull");
@@ -224,14 +239,23 @@ public class Prikaz extends Activity {
         protected void onPostExecute(String result) {
             try {
                 JSONObject jObject = new JSONObject(responseBody); //ako je null odgovor?!
-                final String naslov =  jObject.getString("naslov");
-                final String opis =  jObject.getString("opis");
-                final String audio =  jObject.getString("audio");
-                JSONArray slike = jObject.getJSONArray("slike");
+                final String naslov =  jObject.getString("Naziv");
+                final String opis =  jObject.getString("Opis");
+                final String audio =  jObject.getString("Audio");
+                JSONArray slike = jObject.getJSONArray("Slike");
 
                 runOnUiThread(new Runnable(){
                     public void run() {
-                        mediaPlayer = MediaPlayer.create(Prikaz.this, Uri.parse(baseURL + audio));
+                        Log.i("-->", "" + audio);
+                        if(audio != "null"){
+                            mediaPlayer = MediaPlayer.create(Prikaz.this, Uri.parse(audio));
+                            ImageButton play = (ImageButton) findViewById(R.id.playID);
+                            play.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            ImageButton play = (ImageButton) findViewById(R.id.playID);
+                            play.setVisibility(View.INVISIBLE);
+                        }
                         TextView naslovTV = (TextView) findViewById(R.id.naslovID);
                         TextView opisTV = (TextView) findViewById(R.id.txtID);
                         opisTV.setText(opis);
@@ -242,9 +266,10 @@ public class Prikaz extends Activity {
 
                 if(slike.length() > 0) {
                     for (int i = 0; i < slike.length(); i++) {
-                        JSONObject e = slike.getJSONObject(i);
-                        String s = e.getString("slika");
-                        listaPutanjaSlika.add(s);
+                        //JSONObject e = slike.getJSONObject(i);
+                        //String s = e.getString("slika");
+                        Log.i("-->", "" + slike.get(i));
+                        listaPutanjaSlika.add("" + slike.get(i));
                     }
                     Picasso.with(Prikaz.this).load(listaPutanjaSlika.get(0)).into(t);
 

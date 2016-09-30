@@ -38,8 +38,9 @@
                 android:id="@+id/headerID"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:textSize="45sp"
-                android:textAlignment="center" />
+                android:textSize="@dimen/header_font"
+                android:textAlignment="center"
+                android:textIsSelectable="false" />
         </FrameLayout>
 
     </LinearLayout>
@@ -61,10 +62,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/opis1OmuzejuID"
                 android:paddingTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="@dimen/prikaz_lr_margina"
+                android:layout_marginRight="@dimen/prikaz_lr_margina"
                 android:text="@string/opis1Omuzeju"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="@dimen/prikaz_tb_margina"
                 android:textSize="18sp" />
 
             <ImageView
@@ -74,8 +75,8 @@
                 android:layout_below="@+id/opis1OmuzejuID"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/omuzeju"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginLeft="@dimen/prikaz_lr_margina"
+                android:layout_marginRight="@dimen/prikaz_lr_margina" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -84,10 +85,9 @@
                 android:id="@+id/opis2OmuzejuID"
                 android:layout_alignParentBottom="false"
                 android:layout_below="@+id/imageView"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="@dimen/prikaz_tb_margina"
+                android:layout_marginRight="@dimen/prikaz_lr_margina"
+                android:layout_marginLeft="@dimen/prikaz_lr_margina"
                 android:textSize="18sp" />
 
             <TextView
@@ -97,16 +97,14 @@
                 android:text="@string/lokacijaMuzej"
                 android:id="@+id/textView"
                 android:layout_below="@+id/opis2OmuzejuID"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="@dimen/prikaz_lr_margina"
+                android:layout_marginBottom="@dimen/prikaz_tb_margina"
                 android:textColor="#720f10" />
 
             <fragment
                 android:id="@+id/map"
-                android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/prikaz_lr_margina"
                 android:layout_below="@+id/textView"
                 android:layout_width="fill_parent"
                 android:layout_height="300dp"

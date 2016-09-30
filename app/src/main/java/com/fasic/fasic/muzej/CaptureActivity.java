@@ -3,13 +3,17 @@ package com.fasic.fasic.muzej;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
@@ -34,7 +38,6 @@ public class CaptureActivity extends Activity {
     private Handler autoFocusHandler;
     private CameraManager mCameraManager;
 
-    private TextView scanResult;
     private FrameLayout scanPreview;
     //private Button scanRestart;
     private RelativeLayout scanContainer;
@@ -46,17 +49,21 @@ public class CaptureActivity extends Activity {
     private boolean previewing = true;
     private ImageScanner mImageScanner = null;
 
-    private String jezik = "Srb";
+    private String jezik = "sr";
 
     static {
         System.loadLibrary("iconv");
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent intent = getIntent();
         jezik = intent.getStringExtra("jezik");
         setJezik(jezik);
         super.onCreate(savedInstanceState);
+
+
 
     }
 
@@ -68,11 +75,18 @@ public class CaptureActivity extends Activity {
         findViewById();
         initViews();
         setFont();
+
+        ImageView logo = (ImageView) findViewById(R.id.logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void findViewById() {
         scanPreview = (FrameLayout) findViewById(R.id.capture_preview);
-        scanResult = (TextView) findViewById(R.id.capture_scan_result);
         //scanRestart = (Button) findViewById(R.id.capture_restart_scan);
         scanContainer = (RelativeLayout) findViewById(R.id.capture_container);
         scanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
@@ -163,8 +177,7 @@ public class CaptureActivity extends Activity {
 
             Image barcode = new Image(size.width, size.height, "Y800");
             barcode.setData(rotatedData);
-            barcode.setCrop(mCropRect.left, mCropRect.top, mCropRect.width(),
-                    mCropRect.height());
+            barcode.setCrop(mCropRect.left, mCropRect.top, mCropRect.width(),mCropRect.height());
 
             int result = mImageScanner.scanImage(barcode);
             String resultStr = null;
@@ -212,8 +225,11 @@ public class CaptureActivity extends Activity {
         int[] location = new int[2];
         scanCropView.getLocationInWindow(location);
 
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, getResources().getDimension(R.dimen.header_height), r.getDisplayMetrics());
+
         int cropLeft = location[0];
-        int cropTop = location[1] - getStatusBarHeight();
+        int cropTop = location[1] - (int)px;
 
         int cropWidth = scanCropView.getWidth();
         int cropHeight = scanCropView.getHeight();
@@ -249,11 +265,9 @@ public class CaptureActivity extends Activity {
         String drzava;
 
         if(jezik.equals("sr")){
-            Log.i("-->", "srCA");
             drzava = "RS";
         }
         else{
-            Log.i("-->","enCA");
             drzava = "US";
         }
 
@@ -267,6 +281,8 @@ public class CaptureActivity extends Activity {
     private void setFont(){
         Typeface font = Typeface.createFromAsset(getAssets(),  getResources().getString(R.string.font));
         font.isBold();
-        scanResult.setTypeface(font);
+
+        TextView naslovTB = (TextView) findViewById(R.id.naslov);
+        naslovTB.setTypeface(font);
     }
 }

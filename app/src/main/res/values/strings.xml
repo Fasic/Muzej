@@ -4,10 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_capture">CaptureActivity</string>
-    <string name="skeniranjeTxt">Skeniranje...</string>
+    <string name="skeniranjeTxt">Skeniranje</string>
     <string name="title_activity_prikaz">Prikaz</string>
     <string name="backDugme">Back</string>
-    <string name="baseURL" translatable="false">http://fasic.hostoi.com/</string>
+    <string name="baseURL" translatable="false">http://192.168.1.114/</string>
     <string name="font" translatable="false">SanFranciscoReg.ttf</string>
     <string name="qrDugme">QR</string>
     <string name="infoDugme">info</string>
