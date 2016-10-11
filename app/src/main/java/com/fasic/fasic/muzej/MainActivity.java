@@ -66,14 +66,14 @@ public class MainActivity extends Activity {
 
         qr.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                /*Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                intent.putExtra("jezik", jezik);
-                startActivityForResult(intent, 0);*/
-
-                Intent intent = new Intent(MainActivity.this, Prikaz.class);
-                intent.putExtra("id", 1);
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
                 intent.putExtra("jezik", jezik);
                 startActivityForResult(intent, 0);
+
+                /*Intent intent = new Intent(MainActivity.this, Prikaz.class);
+                intent.putExtra("id", 1);
+                intent.putExtra("jezik", jezik);
+                startActivityForResult(intent, 0);*/
             }
         });
 

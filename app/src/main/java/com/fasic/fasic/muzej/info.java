@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,15 +43,53 @@ public class info extends Activity {
         });
 
 
-        LinearLayout dugme1 = (LinearLayout) findViewById(R.id.scrollViewID);
+        LinearLayout dugme1 = (LinearLayout) findViewById(R.id.dugme1ID);
         dugme1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(info.this, oAktivnost.class);
-                intent.putExtra("jezik", jezik);
-                startActivityForResult(intent, 0);
+                startOaktivnost("oMuzeju");
             }
         });
+
+        dugme1 = (LinearLayout) findViewById(R.id.dugme2ID);
+        dugme1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOaktivnost("oPecini");
+            }
+        });
+
+        dugme1 = (LinearLayout) findViewById(R.id.dugme3ID);
+        dugme1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOaktivnost("oOrascu");
+            }
+        });
+
+        dugme1 = (LinearLayout) findViewById(R.id.dugme4ID);
+        dugme1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOaktivnost("oKuci");
+            }
+        });
+
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+
+        float density  = getResources().getDisplayMetrics().density;
+        float dpHeight = outMetrics.heightPixels / density;
+        float dpWidth  = outMetrics.widthPixels / density;
+        Log.i("--A>", ""+dpWidth);
+    }
+
+    private void startOaktivnost(String oCemu){
+        Intent intent = new Intent(info.this, oAktivnost.class);
+        intent.putExtra("jezik", jezik);
+        intent.putExtra("oCemu", oCemu);
+        startActivityForResult(intent, 0);
     }
 
     protected void setJezik(String jezik){

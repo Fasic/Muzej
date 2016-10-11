@@ -25,6 +25,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -79,7 +80,7 @@ public class Prikaz extends Activity {
         display.getSize(size);
         int width = size.x;
 
-        params.height = (width/16) * 9;
+        params.height = (width / 16) * 9;
         frame.setLayoutParams(params);
 
         //baseFile =  getResources().getString(R.string.baseFile);
@@ -87,12 +88,18 @@ public class Prikaz extends Activity {
         String ver = "v" + BuildConfig.VERSION_CODE;
         String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        //String url = baseURL  + ver + "/" + android_id  + "/" + jezik + "/" + id;
-        String url = "http://192.168.1.100/muzej/readTest.php";
+        String url = baseURL  + ver + "/" + android_id  + "/" + jezik + "/" + id;
+        //String url = "http://192.168.1.100/muzej/readTest.php";
         Log.i("--F>", url);
 
+        try{
+        String sta = new GetJSON(url).execute().get();
+        if (sta == null) {
+            TextView naslovTV = (TextView) findViewById(R.id.naslovID);
+            naslovTV.setText(getResources().getString(R.string.no_network));
 
-        new GetJSON(url).execute();
+        }
+    }catch (Exception e){}
 
         ImageView logo = (ImageView) findViewById(R.id.logo);
         logo.setOnClickListener(new View.OnClickListener() {
@@ -276,6 +283,16 @@ public class Prikaz extends Activity {
                 }else {
                     ViewGroup layout = (ViewGroup) galerija.getParent();
                     if (layout != null) layout.removeView(galerija);
+                    TextView tv = (TextView) findViewById(R.id.txtID);
+                    RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    p.addRule(RelativeLayout.BELOW, R.id.naslovID);
+                    int margina = (int) getResources().getDimension(R.dimen.prikaz_lr_margina);
+                    p.setMargins(margina, 0, margina,0);
+
+                    tv.setLayoutParams(p);
+                    tv.setTextSize(getResources().getDimension(R.dimen.prikaz_txt));
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
