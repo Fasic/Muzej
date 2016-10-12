@@ -17,4 +17,7 @@
     <dimen name="qr_info_font">19dp</dimen>
     <dimen name="zastava_sirina">135dp</dimen>
     <dimen name="zastava_visina">81dp</dimen>
+
+    <dimen name="qrCRop">210dp</dimen>
+
 </resources>

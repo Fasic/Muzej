@@ -122,6 +122,16 @@ public class CaptureActivity extends Activity {
         }
 
         mCamera = mCameraManager.getCamera();
+
+        Camera.Parameters params = mCamera.getParameters();
+        if (params.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        } else if (params.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)){
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+        }
+        mCamera.setParameters(params);
+
+
         mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
         scanPreview.addView(mPreview);
 
@@ -214,7 +224,7 @@ public class CaptureActivity extends Activity {
 
     Camera.AutoFocusCallback autoFocusCB = new Camera.AutoFocusCallback() {
         public void onAutoFocus(boolean success, Camera camera) {
-            autoFocusHandler.postDelayed(doAutoFocus, 1000);
+            //autoFocusHandler.postDelayed(doAutoFocus, 1000);
         }
     };
 
